@@ -41,35 +41,28 @@ export const getTodoByID = (payload) => {
 const initialState = {
   todos: [
     {
-      id: '0',
-      title: '',
-      body: '',
-      isDone: false,
-    },
-    {
       id: '1',
       title: '리액트',
       body: '리액트를 배워봅시다',
       isDone: false,
     },
   ],
+  todo: {
+    id: '0',
+    title: '',
+    body: '',
+    isDone: false,
+  },
 };
 
 const todos = (state = initialState, action) => {
+  console.log(state, action.payload);
   switch (action.type) {
     case ADD_TODO:
       return {
         ...state,
         todos: [...state.todos, action.payload],
       };
-
-    //todos 아이템을 가져온다 > filter를 통해 state의 아이디와 payload가 일치하지 않는것들만 보여줌
-    case DELETE_TODO:
-      return {
-        ...state,
-        todos: state.todos.filter((v) => v.id !== action.payload),
-      };
-
     case TOGGLE_STATUS_TODO:
       return {
         ...state,
@@ -84,7 +77,11 @@ const todos = (state = initialState, action) => {
           }
         }),
       };
-
+    case DELETE_TODO:
+      return {
+        ...state,
+        todos: state.todos.filter((todo) => todo.id !== action.payload),
+      };
     case GET_TODO_BY_ID:
       return {
         ...state,
